@@ -10,11 +10,11 @@ def draw_plot():
     # Read data from file
     df = pd.read_csv('epa-sea-level.csv')
 
-    # Create scatter plot
+    # Scatter plot
     plt.figure(figsize=(12,8))
     plt.scatter(data=df,x='Year',y='CSIRO Adjusted Sea Level',label='CSIRO Adjusted Sea Level Observations: Late 19th Century - 21st Century')
     
-    # Create first line of best fit
+    # First line of best fit. Line predicts sea level until year 2050 based on data up from years 1880 - 2000.
     df_recent = df[df['Year'] >=2000]
     df_future = pd.DataFrame({'Year' : [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 
                                      2022, 2023, 2024, 2025, 2026, 2027,2028, 2029, 2030, 2031, 2032, 
@@ -28,7 +28,7 @@ def draw_plot():
     y0 = line_regress.intercept + line_regress.slope * years
     plt.plot(years, y0, color='green', linewidth=2, label='Past trend')
 
-    # Create second line of best fit
+    # Second line of best fit. Line predicts sea level until year 2050 based on sea level from years 2000 - 2013.
     x2 = df_recent['Year']
     y2 = df_recent['CSIRO Adjusted Sea Level']
     line_reg_to_2050 = linregress(x2, y2)
@@ -38,13 +38,13 @@ def draw_plot():
     plt.scatter(x2, y2, label='Recent Observations (Years 2000 - 2013)')
     plt.plot(df_rec_fut['Year'], y1, color='red', label='Prediction')
 
-    # Add labels and title
+    # Chart labels and title
     plt.xlabel('Year')
     plt.ylabel('Sea Level (inches)')
     plt.title('Rise in Sea Level')
     plt.legend()
     
-    # Save plot and return data for testing (DO NOT MODIFY)
+    # Saves plot and returns data for testing
     plt.savefig('sea_level_plot.png')
     return plt.gca()
 draw_plot()
